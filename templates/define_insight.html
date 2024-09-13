@@ -1,0 +1,75 @@
+<!-- templates/define_insight.html -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Define Metric Insight</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#add_baseline_filter').click(function () {
+                addFilter('baseline_filters', 'baseline');
+            });
+
+            $('#add_comparison_filter').click(function () {
+                addFilter('comparison_filters', 'comparison');
+            });
+
+            function addFilter(divId, prefix) {
+                var newFilter = `
+                <div class="filter">
+                    <label>Filter Column:</label>
+                    <select name="` + prefix + `_filter_column[]">
+                        <option value="">Select Column</option>
+                        {% for col in columns %}
+                            <option value="{{ col }}">{{ col }}</option>
+                        {% endfor %}
+                    </select>
+                    <label>Operator:</label>
+                    <select name="` + prefix + `_filter_operator[]">
+                        <option value="EQ">Equals</option>
+                        <option value="NEQ">Not Equals</option>
+                        <option value="GT">Greater Than</option>
+                        <option value="LT">Less Than</option>
+                    </select>
+                    <label>Value:</label>
+                    <input type="text" name="` + prefix + `_filter_value[]" placeholder="Value">
+                    <br><br>
+                </div>
+                `;
+                $('#' + divId).append(newFilter);
+            }
+        });
+    </script>
+</head>
+
+<body>
+    <h1>Define a Metric Insight</h1>
+    <form method="post">
+        <label for="insight_name">Insight Name:</label>
+        <input type="text" id="insight_name" name="insight_name" value="{{ metric.name }}" required>
+        <br><br>
+        <label for="group_by_columns">Group By Columns:</label>
+        <select id="group_by_columns" name="group_by_columns" multiple required>
+            {% for col in columns %}
+            <option value="{{ col }}">{{ col }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+        <h3>Baseline Segment Filters</h3>
+        <div id="baseline_filters">
+            <!-- Filters will be added here -->
+        </div>
+        <button type="button" id="add_baseline_filter">Add Baseline Filter</button>
+        <br><br>
+        <h3>Comparison Segment Filters</h3>
+        <div id="comparison_filters">
+            <!-- Filters will be added here -->
+        </div>
+        <button type="button" id="add_comparison_filter">Add Comparison Filter</button>
+        <br><br>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+
+</html>

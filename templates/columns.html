@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>CSV Columns</title>
+</head>
+
+<body>
+    <h1>Columns in the CSV File</h1>
+    <ul>
+        {% for column in columns %}
+        <li>{{ column }}</li>
+        {% endfor %}
+    </ul>
+    <a href="{{ url_for('index') }}">Go Back</a>
+</body>
+
+</html>
