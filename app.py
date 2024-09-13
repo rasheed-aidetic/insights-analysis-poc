@@ -28,6 +28,7 @@ app.secret_key = "your_secret_key"  # Replace with a secure random key
 def index():
     if request.method == "POST":
         file_path = request.form["file_path"]
+        date_column = request.form["date_column"]
         # Validate the file path
         if os.path.isfile(file_path) and file_path.endswith(".csv"):
             try:
@@ -37,6 +38,7 @@ def index():
                 columns = df.columns.tolist()
                 # Store the columns in the session
                 session["columns"] = columns
+                session["date_column"] = date_column
                 return redirect(url_for("define_metric"))
             except Exception as e:
                 error_message = f"Error reading the file: {e}"
@@ -226,6 +228,32 @@ def initialize_metric(metric_data):
 
     return metric
 
+def get_insight_results(insights):
+
+    file_path = session["file_path"]
+    date_column = session["date_column"]
+    df = data_source_utils.load_df_from_csv(
+    file_path,
+    date_column=date_column,
+)
+    # calculate overall trends based on period
+    trend_calculator = SegmentComparison(insights=insights)
+    trend_df = trend_calculator.calculate(
+        df,
+    )
+    print("--------------------------------")
+    trend_df[1].head()
+    # calculate trends for subgroups based on period
+    subgroup_trend_calculator = SegmentSubgroupInsights(insights=insights)
+    subgroup_trend_df = subgroup_trend_calculator.calculate(
+        trend_df=trend_df[0],
+        baseline_filtered_df = trend_df[1],
+        comparison_filtered_df = trend_df[2],
+    )
+    subgroup_trend_df.head()
+    subgroup_trend_df.write_csv("test_data_2.csv")
+    return subgroup_trend_df.to_dicts()
+
 
 @app.route("/define_insight", methods=["GET", "POST"])
 def define_insight():
@@ -235,7 +263,7 @@ def define_insight():
         return redirect(url_for("index"))
     if request.method == "POST":
         insight_name = request.form.get("insight_name")
-        group_by_columns = request.form.getlist("group_by_columns")
+        group_by_columns = request.form.getlist("group_by_columns[]")
 
         # Process baseline filters
         baseline_filters = []
@@ -293,12 +321,13 @@ def define_insight():
             baseline_segment=baseline_segment,
             comparison_segment=comparison_segment,
         )
+        insight_results = get_insight_results(insights)
 
         # Store insights in the session or process it further
-        session["insights"] = insights
+        session["insights"] = insight_results
 
         # Proceed with analysis or further processing
-        return render_template("insight_result.html", insights=insights)
+        return render_template("insight_result.html", insights=insight_results)
     else:
         return render_template(
             "define_insight.html", columns=columns, metric=metric_data

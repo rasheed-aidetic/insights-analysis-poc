@@ -145,8 +145,12 @@
             <div id="numerator_metric">
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <label for="column-2" class="form-label">Column:</label>
-                        <select id="column-2" name="column-2" class="form-select">
+                        <div class="col-md-6">
+                            <label for="numerator_name" class="form-label">Denominator Metric Name:</label>
+                            <input type="text" id="numerator_name" name="numerator_name" class="form-control">
+                        </div>
+                        <label for="numerator_column" class="form-label">Column:</label>
+                        <select id="numerator_column" name="numerator_column" class="form-select">
                             <option value="">Select Column</option>
                             {% for col in columns %}
                             <option value="{{ col }}">{{ col }}</option>
@@ -154,8 +158,8 @@
                         </select>
                     </div>
                     <div class="col-md-6">
-                        <label for="date_column-2" class="form-label">Date Column:</label>
-                        <select id="date_column-2" name="date_column-2" class="form-select">
+                        <label for="numerator_date_column" class="form-label">Date Column:</label>
+                        <select id="numerator_date_column" name="numerator_date_column" class="form-select">
                             <option value="">Select Date Column</option>
                             {% for col in columns %}
                             <option value="{{ col }}">{{ col }}</option>
@@ -166,8 +170,8 @@
 
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <label for="aggregation_method-2" class="form-label">Aggregation Method:</label>
-                        <select id="aggregation_method-2" name="aggregation_method-2" class="form-select">
+                        <label for="numerator_aggregation_method" class="form-label">Aggregation Method:</label>
+                        <select id="numerator_aggregation_method" name="numerator_aggregation_method" class="form-select">
                             <option value="sum">Sum</option>
                             <option value="mean">Mean</option>
                             <option value="count">Count</option>
@@ -187,8 +191,12 @@
             <div id="denominator_metric">
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <label for="column-3" class="form-label">Column:</label>
-                        <select id="column-3" name="column-3" class="form-select">
+                        <div class="col-md-6">
+                            <label for="denominator_name" class="form-label">Denominator Metric Name:</label>
+                            <input type="text" id="denominator_name" name="denominator_name" class="form-control">
+                        </div>
+                        <label for="denominator_column" class="form-label">Column:</label>
+                        <select id="denominator_column" name="denominator_column" class="form-select">
                             <option value="">Select Column</option>
                             {% for col in columns %}
                             <option value="{{ col }}">{{ col }}</option>
@@ -196,8 +204,8 @@
                         </select>
                     </div>
                     <div class="col-md-6">
-                        <label for="date_column-3" class="form-label">Date Column:</label>
-                        <select id="date_column-3" name="date_column-3" class="form-select">
+                        <label for="denominator_date_column" class="form-label">Date Column:</label>
+                        <select id="denominator_date_column" name="denominator_date_column" class="form-select">
                             <option value="">Select Date Column</option>
                             {% for col in columns %}
                             <option value="{{ col }}">{{ col }}</option>
@@ -208,8 +216,8 @@
 
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <label for="aggregation_method-3" class="form-label">Aggregation Method:</label>
-                        <select id="aggregation_method-3" name="aggregation_method-3" class="form-select">
+                        <label for="denominator_aggregation_method" class="form-label">Aggregation Method:</label>
+                        <select id="denominator_aggregation_method" name="denominator_aggregation_method" class="form-select">
                             <option value="sum">Sum</option>
                             <option value="mean">Mean</option>
                             <option value="count">Count</option>

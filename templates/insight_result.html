@@ -32,15 +32,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        // Example JSON data (this would be replaced with dynamic data)
-        const insights = [
-            { "name": "Insight 1", "value": 100, "date": "2024-09-01" },
-            { "name": "Insight 2", "value": 200, "date": "2024-09-02" },
-            // Add more insights as needed
-        ];
 
         $(document).ready(function () {
-            // var insights  = {{ insights | tojson }};
+            var insights  = {{ insights | tojson }};
             if (insights?.length > 0) {
                 // Generate table headers dynamically
                 const headers = Object.keys(insights[0]);
